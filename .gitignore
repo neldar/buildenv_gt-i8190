@@ -1,0 +1,6 @@
+backup
+docs
+liblights
+kernel/*
+out/*
+tmp/*
