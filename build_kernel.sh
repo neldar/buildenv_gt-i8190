@@ -9,6 +9,10 @@ BUILD_USER=ididnotre
 BUILD_HOST=dtheREADME
 BUILD_VERSION=0
 
+CROSS_COMPILE="/usr/bin/arm-linux-gnueabi-"
+CFLAGS="-g -O2"
+CPU_JOB_NUM=8
+
 while true
 do
   case $# in 0) break ;; esac
@@ -64,9 +68,6 @@ do
     esac
 done
 
-if [ "$CPU_JOB_NUM" = "" ] ; then
-	CPU_JOB_NUM=8
-fi
 
 export PRJROOT=$PWD
 export PROJECT_NAME
@@ -86,8 +87,8 @@ BUILD_KERNEL()
 	echo
 
 	# initialize
-	mkdir out
-	mkdir tmp
+	mkdir -p out
+	mkdir -p tmp
 
 	pushd $KERNEL_BUILD_DIR
 
@@ -98,14 +99,11 @@ BUILD_KERNEL()
 	fi
 	
 	if  [ ! "$nobuildzimage" = "true" ]; then
-	    # make kernel with codesourcery:
-	    # make -j$CPU_JOB_NUM HOSTCFLAGS="-g -O2" CROSS_COMPILE=$TOOLCHAIN/$TOOLCHAIN_PREFIX
-	    # make kernel with gnu gcc:
 	    export LOCALVERSION="-790526"
 	    export KBUILD_BUILD_USER="$BUILD_USER"
 	    export KBUILD_BUILD_HOST="$BUILD_HOST"
 	    export KBUILD_BUILD_VERSION="$BUILD_VERSION"
-	    make -j$CPU_JOB_NUM
+	    make -j$CPU_JOB_NUM HOSTCFLAGS="$CFLAGS" CROSS_COMPILE=$CROSS_COMPILE
 	    kernelmakeerror=$?
 	fi
 
@@ -127,7 +125,7 @@ BUILD_KERNEL()
 
 	if  [ ! "$nobuildinitrdimg" = "true" ]; then
 		pushd $INITRDDIR
-		find . | cpio -o -H newc | gzip > ../tmp/initrd.img
+		find . -name '.git' -prune -o -print | cpio -o -H newc | gzip > ../tmp/initrd.img
 		popd
 	fi
 
