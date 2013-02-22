@@ -5,9 +5,9 @@ INITRDDIR=ramdisk-contents
 
 DEF_CONFIG=goldennfc_defconfig
 
-BUILD_USER=bln-kernel
-BUILD_HOST=neldar
-BUILD_VERSION=2
+BUILD_USER=ididnotre
+BUILD_HOST=dtheREADME
+BUILD_VERSION=0
 
 while true
 do

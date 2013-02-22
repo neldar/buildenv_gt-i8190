@@ -1,0 +1,9 @@
+This is the basic build env to edit and build the linux kernel for the Samsung GT-I8190.
+
+Place the linux sources in 'kernel'.
+Place the initramfs files in 'ramdisk-contents'.
+
+You can import this folder into Eclipse CDT as a project.
+It is a good idea to start eclipse with -vmargs -Xmx768.
+
+With ./build_kernel.sh you can build the kernel, have look into the file for options.
