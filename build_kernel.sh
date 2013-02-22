@@ -1,8 +1,13 @@
 #/bin/bash
 
 KERNEL_BUILD_DIR=kernel
-DEF_CONFIG=goldennfc_defconfig
 INITRDDIR=ramdisk-contents
+
+DEF_CONFIG=goldennfc_defconfig
+
+BUILD_USER=bln-kernel
+BUILD_HOST=neldar
+BUILD_VERSION=2
 
 while true
 do
@@ -80,6 +85,10 @@ BUILD_KERNEL()
 	echo "************************************************************"
 	echo
 
+	# initialize
+	mkdir out
+	mkdir tmp
+
 	pushd $KERNEL_BUILD_DIR
 
 	export KDIR=`pwd`
@@ -93,9 +102,9 @@ BUILD_KERNEL()
 	    # make -j$CPU_JOB_NUM HOSTCFLAGS="-g -O2" CROSS_COMPILE=$TOOLCHAIN/$TOOLCHAIN_PREFIX
 	    # make kernel with gnu gcc:
 	    export LOCALVERSION="-790526"
-	    export KBUILD_BUILD_USER="bln-kernel"
-	    export KBUILD_BUILD_HOST="neldar"
-	    export KBUILD_BUILD_VERSION="2"
+	    export KBUILD_BUILD_USER="$BUILD_USER"
+	    export KBUILD_BUILD_HOST="$BUILD_HOST"
+	    export KBUILD_BUILD_VERSION="$BUILD_VERSION"
 	    make -j$CPU_JOB_NUM
 	    kernelmakeerror=$?
 	fi
