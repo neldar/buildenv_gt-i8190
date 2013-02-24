@@ -5,9 +5,9 @@ INITRDDIR=ramdisk-contents
 
 DEF_CONFIG=goldennfc_defconfig
 
-BUILD_USER=ididnotre
-BUILD_HOST=dtheREADME
-BUILD_VERSION=0
+BUILD_USER=bln-kernel
+BUILD_HOST=neldar
+BUILD_VERSION=3
 
 CROSS_COMPILE="/usr/bin/arm-linux-gnueabi-"
 CFLAGS="-g -O2"
@@ -125,7 +125,7 @@ BUILD_KERNEL()
 
 	if  [ ! "$nobuildinitrdimg" = "true" ]; then
 		pushd $INITRDDIR
-		find . -name '.git' -prune -o -print | cpio -o -H newc | gzip > ../tmp/initrd.img
+		find . -name '.git*' -prune -o -print | cpio -o -H newc | gzip > ../tmp/initrd.img
 		popd
 	fi
 
